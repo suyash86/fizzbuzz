@@ -1,0 +1,37 @@
+﻿@model FizzBuzz.Models.FizzBuzzVM
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@using (Html.BeginForm("GetResult", "FizzBuzz", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Enter Number
+            </label>
+            <div class="col-md-10">
+                <input type="text" name="EnterNumber" id="EnterNumber" />
+                @Html.ValidationMessageFor(model => model.EnterNumber)
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+        @{
+    if (Model != null && Model.FizzBuzzEntitys != null)
+    {
+        @Html.Partial("_DisplayData",Model)
+        }
+        }
+    </div>
+
+}
