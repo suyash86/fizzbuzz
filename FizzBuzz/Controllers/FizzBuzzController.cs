@@ -1,16 +1,20 @@
 ﻿using FizzBuzz.Models;
-using FizzBuzz.Service;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using FizzBuzz.Model;
+using FizzBuzz.Service.Interface;
 
 namespace FizzBuzz.Controllers
 {
     public class FizzBuzzController : Controller
     {
+        private readonly IFizzBuzzService _fizzBuzzService;
+
+        public FizzBuzzController(IFizzBuzzService fizzBuzzService)
+        {
+            _fizzBuzzService = fizzBuzzService;
+        }
+
         // GET: FizzBuzz
         public ActionResult Index()
         {
@@ -20,8 +24,7 @@ namespace FizzBuzz.Controllers
         [HttpPost]
         public ActionResult GetResult(FizzBuzzVM fizzBuzzEntity)
         {
-            FizzBuzzService fizzBuzzService = new FizzBuzzService();
-            List<FizzBuzzEntity> lstData = fizzBuzzService.GetData(fizzBuzzEntity.EnterNumber);
+            List<FizzBuzzEntity> lstData = _fizzBuzzService.GetData(fizzBuzzEntity.EnterNumber);
             fizzBuzzEntity.FizzBuzzEntitys = lstData;
             return View("Index", fizzBuzzEntity);
         }
